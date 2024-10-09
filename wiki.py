@@ -1,6 +1,6 @@
 import wikipediaapi
 import time 
-import queue as Queue
+from queue import Queue
 
 user_agent = "wiki (haileycb101@gmail.com)"
 wiki = wikipediaapi.Wikipedia(user_agent, "en")
@@ -22,6 +22,10 @@ def wikipedia_solver(start_page, target_page):
     queue = Queue() # queue of which links to check next 
     parent = {} # dictonary to keep track of each pages parent
 
+    #start off by adding the start page to our queue and visited 
+    queue.put(start_page.title)
+    visited.add(start_page.title)
+
     while not queue.empty():
         # get next item in our queue
         current_page_title = queue.get()
@@ -29,7 +33,7 @@ def wikipedia_solver(start_page, target_page):
             break 
 
         # fetch all the Minks for the current page were on 
-        current
+        
         current_page = wiki.page(current_page_title) 
         links = fetch_links(current_page)
 
@@ -37,21 +41,21 @@ def wikipedia_solver(start_page, target_page):
         for link in links:
             if link not in visited:
                 queue.put(link)
-                vistited.add(link)
-                parent {link} = current_page_title 
+                visited.add(link)
+                parent [link] = current_page_title 
 
-path = []
-page_title = target_page.title
-while page_title != start_page.title:
-    path.append(page_title)
-    page_title = parent[page_title] 
+    path = []
+    page_title = target_page.title
+    while page_title != start_page.title:
+        path.append(page_title)
+        page_title = parent[page_title] 
 
-path.append(start_page_title)
-path.reverse()
+        path.append(start_page.title)
+        path.reverse()
 
-end_time = time.time()
-print("this took", end_time - start_time, "seconds to run")
-return path 
+        end_time = time.time()
+        print("this took", end_time - start_time, "seconds to run")
+    return path 
 
 
 
